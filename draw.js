@@ -1,7 +1,25 @@
-let canvas = document.getElementById('canvas').getContext('2d');
+function setup() {
+	createCanvas(200, 200);
+	translate(0, 200);
+	scale(1, -1);
+}
+
+function draw(polynomes = []) {
+	for (const polynome of polynomes) {
+		drawPolynome(polynome);
+	}
+
+	noLoop();
+}
 
 p1 = {
-	coefficients: [100, -5, 0.05],
+	coefficients: [0, 0.5, 0],
+	stroke: 100,
+};
+
+p2 = {
+	coefficients: [50, -0.3, 0],
+	stroke: 120,
 };
 
 function evaluatePolynomeAtX(polynome, x) {
@@ -19,18 +37,30 @@ function evaluatePolynomeAtX(polynome, x) {
 }
 
 function drawPolynome(polynome) {
+	stroke(polynome.stroke);
+
 	for (let x = 0; x < 200; x++) {
 		y = evaluatePolynomeAtX(polynome, x);
 
-		canvas.moveTo(x, 0);
-		canvas.lineTo(x, y);
-
-		canvas.stroke();
+		line(x, 0, x, y);
 	}
 }
 
-canvas.translate(0, 200)
-canvas.scale(1, -1);
+async function l00p() {
+	translate(0, 200);
+	scale(1, -1);
 
+	for (let i = 0; i < 100; i++) {
+		await new Promise((resolve) => setTimeout(() => resolve(), 100));
 
-drawPolynome(p1);
+		p1.coefficients[0] += 1;
+        p2.coefficients[0] += 1;
+        
+        p1.coefficients[2] += 0.0001
+        p2.coefficients[2] += 0.0001
+
+		draw([p1, p2]);
+	}
+}
+
+setTimeout(() => l00p(), 100);
