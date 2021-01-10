@@ -18,6 +18,7 @@ const canvasHeight = 300;
 
 function setup() {
 	createCanvas(canvasWidth, canvasHeight);
+	height = height / 2;
 
 	imageGraphics = createGraphics(canvasWidth, canvasHeight / 2);
 	approximationGraphics = createGraphics(canvasWidth, canvasHeight / 2);
@@ -41,7 +42,7 @@ function draw(polynomes = []) {
 		drawPolynome(polynome);
 	}
 
-	image(approximationGraphics, 0, height / 2);
+	image(approximationGraphics, 0, height);
 
 	comparePictures();
 	noLoop();
@@ -50,27 +51,28 @@ function draw(polynomes = []) {
 function comparePictures() {
 	const pxDensity = pixelDensity();
 
-	const treshold = 100;
+	const treshold = 20;
+	const sampleSteps = 40;
 	let matchAmount = 0;
+	imageGraphics.loadPixels();
+	approximationGraphics.loadPixels();
 
-	for (let x = 0; x < width; x += 100) {
-		for (let y = 0; y < height / 2; y += 100) {
+	for (let x = 0; x < width; x += width/sampleSteps) {
+		for (let y = 0; y < height; y += height/sampleSteps) {
 			const i = 4 * pxDensity * (y * pxDensity * width + x);
 
-			imageGraphics.loadPixels();
+			
 			const imageGraphicsPixel = {
 				r: imageGraphics.pixels[i],
 				g: imageGraphics.pixels[i + 1],
 				b: imageGraphics.pixels[i + 2],
 			};
 
-			approximationGraphics.loadPixels();
 			const approximationGraphicsPixel = {
 				r: approximationGraphics.pixels[i],
 				g: approximationGraphics.pixels[i + 1],
 				b: approximationGraphics.pixels[i + 2],
 			};
-
 			if (
 				imageGraphicsPixel.r >= approximationGraphicsPixel.r - treshold &&
 				imageGraphicsPixel.r <= approximationGraphicsPixel.r + treshold &&
@@ -84,9 +86,10 @@ function comparePictures() {
 		}
 	}
 
+	const stepAmount = Math.pow(sampleSteps,2);
 	console.log(
-		`The match rate is ${
-			matchAmount / (imageGraphics.pixels.length / (100 * 100))
+		`The match rate is ${matchAmount} out of ${stepAmount}, ${
+			matchAmount / stepAmount
 		}`
 	);
 }
