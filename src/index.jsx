@@ -45,17 +45,17 @@ function App() {
 
 	useEffect(() => {
 		async function fetchBaseImage() {
-			setBaseImage(await fetchImageFromUrl(DEFAULT_BASE_IMAGE_URL));
+			setBaseImage(await fetchImageFromUrl(DEFAULT_BASE_IMAGE_URL)); // Load the default image
 		}
 
 		fetchBaseImage();
 	}, []);
 
 	useEffect(() => {
-		if (baseImage) {
-			startApproximation(baseImage, setApproximationImage);
+		if (started && baseImage) {
+			startApproximation(baseImage, setApproximationImage); // start the approximation if start button clicked (or new image selected)
 		}
-	}, [baseImage]);
+	}, [started, baseImage]);
 
 	return (
 		<>
