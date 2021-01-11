@@ -1,10 +1,10 @@
 import Jimp from 'jimp';
-import { IMAGE_WIDHT, IMAGE_HEIGHT } from '../constants';
+import { IMAGE_WIDTH, IMAGE_HEIGHT } from '../constants';
 
 export async function fetchImageFromUrl(url) {
 	const image = await Jimp.read(url);
 
-	const resizedImage = image.resize(IMAGE_WIDHT, IMAGE_HEIGHT);
+	const resizedImage = image.resize(IMAGE_WIDTH, IMAGE_HEIGHT);
 
 	return {
 		src: await resizedImage.getBase64Async(Jimp.MIME_PNG),
