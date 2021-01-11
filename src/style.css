@@ -1,0 +1,11 @@
+#root {
+	display: flex;
+    flex-direction: column;
+    
+    width: 400px;
+    margin: 100px auto;
+}
+
+#root img {
+    margin: 40px 0;
+}
