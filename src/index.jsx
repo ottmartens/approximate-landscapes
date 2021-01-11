@@ -9,15 +9,30 @@ import { startApproximation } from './approximation';
 const DEFAULT_BASE_IMAGE_URL =
 	'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Neckertal_20150527-6384.jpg/2560px-Neckertal_20150527-6384.jpg';
 
+function FileInput() {
+	return (
+		<>
+			<input type='file' onChange={() => console.log('handle me!')} />
+			<span>or use default image:</span>
+		</>
+	);
+}
+
 function Image({ src }) {
 	return <img src={src} alt='' />;
 }
 
-function FileInput() {
-	return <input type='file' onChange={() => console.log('handle me!')} />;
+function StartButton({ started, setStarted }) {
+	return (
+		<button onClick={() => setStarted(!started)}>
+			{started ? 'stop' : 'start'}
+		</button>
+	);
 }
 
 function App() {
+	const [started, setStarted] = useState(false);
+
 	const [baseImage, setBaseImage] = useState(null);
 	const [approximationImage, setApproximationImage] = useState(null);
 	/* 
@@ -45,8 +60,11 @@ function App() {
 	return (
 		<>
 			<FileInput />
-			<Image src={baseImage && baseImage.src} />
-			<Image src={approximationImage && approximationImage.src} />
+			<Image src={baseImage?.src} />
+
+			{baseImage && <StartButton started={started} setStarted={setStarted} />}
+
+			{started && <Image src={approximationImage?.src} />}
 		</>
 	);
 }
