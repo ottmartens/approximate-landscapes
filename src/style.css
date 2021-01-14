@@ -1,0 +1,20 @@
+#root {
+	display: flex;
+	flex-direction: column;
+
+	width: 400px;
+	margin: 100px auto;
+}
+
+#root img {
+	margin: 40px 0;
+}
+
+button {
+	width: 100px;
+	margin: 0 auto;
+}
+
+span {
+	margin-top: 5px;
+}
