@@ -7,6 +7,7 @@ export function getAllMutants(polynomials) {
 	let mutants = [];
 
 	polynomials.forEach((polynomial, index) => {
+		console.log(polynomial);
 		const colorMutants = generateColorMutants(polynomial);
 		const coefficientsMutants = generateCoefficientsMutants(polynomial);
 

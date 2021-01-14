@@ -9,7 +9,7 @@ import { startApproximation } from './approximation';
 import { IMAGE_WIDTH, IMAGE_HEIGHT } from './constants';
 
 const DEFAULT_BASE_IMAGE_URL =
-	'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Neckertal_20150527-6384.jpg/2560px-Neckertal_20150527-6384.jpg';
+	'https://thumbs.dreamstime.com/b/trees-horizont-black-white-photo-39533594.jpg';
 
 function FileInput() {
 	return (
@@ -66,6 +66,8 @@ function App() {
 	}, [canvasRef]);
 
 	useEffect(() => {
+		baseImage && baseImage.log();
+
 		if (started && baseImage) {
 			startApproximation(baseImage, canvas); // start the approximation if start button clicked (or new image selected)
 		}

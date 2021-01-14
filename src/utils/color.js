@@ -1,9 +1,23 @@
-export function getGrayscaleColorString(color, alpha = 1) {
-	return `rgba(${color}, ${color}, ${color}, ${alpha})`;
+export function getGrayscaleColorString(color) {
+	return `rgb(${color}, ${color}, ${color}, ${1})`;
 }
 
-export function grayScaleToRGBA(color, alpha = 1) {
-	return [color, color, color, alpha];
+export function grayScaleToRGB(color) {
+	return [color, color, color];
+}
+
+const DISTANCE_NORMALIZING_RATIO = Math.sqrt(3) * 255;
+
+export function distanceBetweenRGB(color1, color2) {
+	const [r1, g1, b1] = color1;
+	const [r2, g2, b2] = color2;
+
+	const squared = (x) => x * x;
+
+	return (
+		Math.sqrt(squared(r1 - r2) + squared(g1 - g2) + squared(b1 - b2)) /
+		DISTANCE_NORMALIZING_RATIO
+	); // Mabye remove square root?
 }
 
 export function addRGBAColors(color1, color2) {

@@ -17,7 +17,7 @@ let NUM_ROUNDS;
 
 export async function startApproximation(baseImage, canvas) {
 	NUM_ROUNDS = 0;
-	let polynomials = [new Polynomial([0, -1, 0])];
+	let polynomials = [new Polynomial([0, 0, 0])];
 
 	let currentDistance = Infinity;
 

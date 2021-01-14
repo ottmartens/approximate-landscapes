@@ -4,8 +4,7 @@ const DEFAULT_COEFFICIENTS = [BASE_COEFFICIENTS[0]];
 
 export function Polynomial(coefficients) {
 	this.coefficients = coefficients || DEFAULT_COEFFICIENTS;
-    this.color = 125;
-    this.opacity = 0.8;
+    this.color = 200;
 	this.appliedMutations = [];
 }
 

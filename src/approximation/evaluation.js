@@ -1,9 +1,8 @@
 import { sampleNRandomPoints } from '../utils/sampling';
 import { IMAGE_WIDTH, IMAGE_HEIGHT } from '../constants';
 import {
-	addRGBAColors,
-	distanceBetweenColors,
-	grayScaleToRGBA,
+	distanceBetweenRGB,
+	grayScaleToRGB,
 } from '../utils/color';
 
 const PERCENT_OF_POINTS_TO_SAMPLE = 5;
@@ -29,14 +28,14 @@ export function evaluateMutants(mutants, baseImage) {
 		let totalDistance = 0;
 
 		sampledPoints.forEach(([x, y], index) => {
-			const colorInMutation = evaluateBlendedPolynomialsAtPoint(mutant, {
+			const colorInMutation = evaluateOverlaidPolynomialsAtPoint(mutant, {
 				x,
 				y,
 			});
 
 			const realColor = colorsInBaseImage[index];
 
-			totalDistance += distanceBetweenColors(realColor, colorInMutation);
+			totalDistance += distanceBetweenRGB(realColor, colorInMutation);
 		});
 
 		totalDistance /= sampledPoints.length;
@@ -50,27 +49,19 @@ export function evaluateMutants(mutants, baseImage) {
 	return { bestMutant, approximationRatio: smallestDistance };
 }
 
-function evaluateBlendedPolynomialsAtPoint(polynomials, { x, y }) {
-	let colorsToBlend = [];
+function evaluateOverlaidPolynomialsAtPoint(polynomials, { x, y }) {
+	let currentColor = [255, 255, 255];
 
 	polynomials.forEach((polynomial) => {
 		const value = polynomial.evaluateAtX(x);
 
 		if (value >= y) {
 			// We color the area under the polynomial curve
-			const polynomialColor = grayScaleToRGBA(
-				polynomial.color,
-				polynomial.opacity
-			);
+			const polynomialColor = grayScaleToRGB(polynomial.color);
 
-			colorsToBlend.push(polynomialColor);
+			currentColor = polynomialColor;
 		}
 	});
 
-	return colorsToBlend.reduce(
-		(resultColor, currentColor) => {
-			return addRGBAColors(resultColor, currentColor);
-		},
-		[0, 0, 0, 0]
-	);
+	return currentColor;
 }
