@@ -1,4 +1,4 @@
-import draw from './draw';
+import draw from '../utils/draw';
 
 import { Polynomial } from '../utils/polynomial';
 
@@ -9,12 +9,8 @@ polynomial = {
 }
 */
 
-export function startApproximation(baseImage, setApproximationImage) {
-	setApproximationImage({
-		src: baseImage.src,
-	});
+export function startApproximation(baseImage, canvas) {
+	const polynomials = [ new Polynomial()];
 
-	const polynomials = [new Polynomial()];
-
-	console.log(polynomials);
+	draw(canvas, polynomials);
 }
