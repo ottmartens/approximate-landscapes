@@ -35,7 +35,6 @@ export async function startApproximation(baseImage, canvas) {
 
 		if (approximationRatio >= currentDistance) {
 			console.log('Current state is most optimal, stopping');
-			console.log(polynomials);
 
 			break;
 		}
