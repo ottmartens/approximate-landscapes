@@ -12,7 +12,7 @@ export async function fetchImageFromUrl(url) {
 		getPixel: (x, y) => {
 			const hexColor = image.getPixelColor(x, y);
 
-			return Jimp.intToRGBA(hexColor);
+			return Object.values(Jimp.intToRGBA(hexColor));
 		},
 	};
 }

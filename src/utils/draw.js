@@ -1,5 +1,5 @@
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from '../constants';
-import { getGrayscaleColor } from './color';
+import { getGrayscaleColorString } from './color';
 
 export default function draw(canvas, polynomials) {
 	const context = canvas.getContext('2d');
@@ -11,25 +11,29 @@ export default function draw(canvas, polynomials) {
 }
 
 function drawPolynomial(context, polynomial) {
-	const color = getGrayscaleColor(polynomial.color);
-	context.beginPath();
+	const color = getGrayscaleColorString(polynomial.color, polynomial.opacity);
 
-	context.strokeStyle = color;
+	context.fillStyle = color;
 
-	for (let x = -(IMAGE_WIDTH / 2); x < IMAGE_WIDTH / 2; x++) {
+	context.moveTo(0, 0);
+
+	for (let x = -(IMAGE_WIDTH / 2); x <= IMAGE_WIDTH / 2; x++) {
 		const y = polynomial.evaluateAtX(x);
 
 		drawPolynomialAtCoordinate(context, { x, y });
 	}
-	context.closePath();
 
-	context.stroke();
+	context.lineTo(IMAGE_WIDTH, 0);
+	context.lineTo(0, 0);
+
+	context.fill();
+
+	// const pixels = context.getImageData(0, 0, 400, 200).data;
+	// console.log(pixels);
 }
 
 function drawPolynomialAtCoordinate(context, { x, y }) {
 	x += IMAGE_WIDTH / 2; // Translate to canvas coordinates
-
-	context.moveTo(x, 0);
 
 	context.lineTo(x, y);
 }
