@@ -20,10 +20,6 @@ function drawPolynomial(context, polynomial) {
 	for (let x = -(IMAGE_WIDTH / 2); x <= IMAGE_WIDTH / 2; x++) {
 		const y = polynomial.evaluateAtX(x);
 
-		if (x % 100 === 0) {
-			console.log(x, y);
-		}
-
 		drawPolynomialAtCoordinate(context, { x, y });
 	}
 
@@ -43,8 +39,7 @@ function drawPolynomialAtCoordinate(context, { x, y }) {
 }
 
 function clearCanvas(canvas) {
-
-    // eslint-disable-next-line
+	// eslint-disable-next-line
 	canvas.width = canvas.width;
 
 	translateCanvasContext(canvas);
