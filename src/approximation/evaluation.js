@@ -5,10 +5,10 @@ import {
 	grayScaleToRGB,
 } from '../utils/color';
 
-const PERCENT_OF_POINTS_TO_SAMPLE = 5;
+const PERCENT_OF_POINTS_TO_SAMPLE = 10;
 
 const NUMBER_OF_POINTS_TO_SAMPLE = Math.round(
-	(IMAGE_WIDTH * IMAGE_HEIGHT) / PERCENT_OF_POINTS_TO_SAMPLE
+	(IMAGE_WIDTH * IMAGE_HEIGHT) * (PERCENT_OF_POINTS_TO_SAMPLE/100)
 );
 
 export function evaluateMutants(mutants, baseImage) {

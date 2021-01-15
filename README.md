@@ -2,7 +2,7 @@
 
 TODO:
 
-- Implement sampling
+- DONE Implement sampling 
 
 - Implement stop/reset on button click
 
