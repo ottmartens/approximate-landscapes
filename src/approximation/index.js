@@ -17,7 +17,7 @@ let NUM_ROUNDS;
 
 export async function startApproximation(baseImage, canvas) {
 	NUM_ROUNDS = 0;
-	let polynomials = [new Polynomial([0, 0, 0])];
+	let polynomials = [new Polynomial()];
 
 	let currentDistance = Infinity;
 
@@ -30,8 +30,6 @@ export async function startApproximation(baseImage, canvas) {
 			mutants,
 			baseImage
 		);
-
-		console.log(approximationRatio);
 
 		if (approximationRatio >= currentDistance) {
 			console.log('Current state is most optimal, stopping');
@@ -49,6 +47,4 @@ export async function startApproximation(baseImage, canvas) {
 
 		await new Promise((resolve) => setTimeout(resolve, 100));
 	}
-
-	console.log(polynomials);
 }
