@@ -11,11 +11,12 @@ export function getAllMutants(polynomials) {
 		const coefficientsMutants = generateCoefficientsMutants(polynomial);
 
 		[...colorMutants, ...coefficientsMutants].forEach((mutantPolynomial) => {
+			// Clone the polynomials and replace one with a mutant
 			const mutant = cloneDeep(polynomials);
 
 			mutant[index] = mutantPolynomial;
 
-			mutants.push(mutant);
+			mutants.push(mutant); 
 		});
 	});
 

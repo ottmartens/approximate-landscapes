@@ -1,9 +1,13 @@
-export function getGrayscaleColorString(color) {
+/* export function getGrayscaleColorString(color) {
 	return `rgb(${color}, ${color}, ${color}, ${1})`;
 }
 
 export function grayScaleToRGB(color) {
 	return [color, color, color];
+} */
+
+export function getColorString(color) {
+	return `rgb(${color[0]}, ${color[1]}, ${color[2]}, ${1})`;
 }
 
 const DISTANCE_NORMALIZING_RATIO = Math.sqrt(3) * 255;

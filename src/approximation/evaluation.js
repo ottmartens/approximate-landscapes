@@ -5,7 +5,7 @@ import {
 	grayScaleToRGB,
 } from '../utils/color';
 
-const PERCENT_OF_POINTS_TO_SAMPLE = 10;
+const PERCENT_OF_POINTS_TO_SAMPLE = 0.1;
 
 const NUMBER_OF_POINTS_TO_SAMPLE = Math.round(
 	(IMAGE_WIDTH * IMAGE_HEIGHT) * (PERCENT_OF_POINTS_TO_SAMPLE/100)
@@ -57,9 +57,8 @@ function evaluateOverlaidPolynomialsAtPoint(polynomials, { x, y }) {
 
 		if (value >= y) {
 			// We color the area under the polynomial curve
-			const polynomialColor = grayScaleToRGB(polynomial.color);
-
-			currentColor = polynomialColor;
+			//Which polynomials' color should we be returning? 
+			currentColor = polynomial.color;
 		}
 	});
 

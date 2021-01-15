@@ -6,9 +6,11 @@ export function generateColorMutants(polynomial) {
 	let mutantPolynomials = [];
 
 	colorMutations.forEach((mutation) => {
-		if (mutation.isValid(polynomial.color)) {
+		const [r,g,b] = polynomial.color;
+		const color = {r, g, b}
+		if (mutation.isValid(color)) {
 			const { newValue, appliedMutatation } = mutation.execute(
-				polynomial.color
+				color	
 			);
 
 			const mutant = cloneDeep(polynomial);
@@ -37,26 +39,74 @@ const colorMutations = [
     */
 
 	{
-		name: 'darken',
+		name: 'decreaseRed',
 		isValid: (color) => {
-			return color - COLOR_STEP_SIZE >= 0;
+			return color.r - COLOR_STEP_SIZE >= 0;
 		},
 		execute: (color) => {
 			return {
-				newValue: color - COLOR_STEP_SIZE,
-				appliedMutatation: `decreased color by ${COLOR_STEP_SIZE}`,
+				newValue: [color.r - COLOR_STEP_SIZE, color.g, color.b],
+				appliedMutatation: `decreased red by ${COLOR_STEP_SIZE}`,
 			};
 		},
 	},
 	{
-		name: 'lighten',
+		name: 'increaseRed',
 		isValid: (color) => {
-			return color + COLOR_STEP_SIZE <= 255;
+			return color.r + COLOR_STEP_SIZE <= 255;
 		},
 		execute: (color) => {
 			return {
-				newValue: color + COLOR_STEP_SIZE,
-				appliedMutatation: `decreased color by ${COLOR_STEP_SIZE}`,
+				newValue: [color.r + COLOR_STEP_SIZE, color.g, color.b],
+				appliedMutatation: `increased red by ${COLOR_STEP_SIZE}`,
+			};
+		},
+	},
+	{
+		name: 'decreaseGreen',
+		isValid: (color) => {
+			return color.g - COLOR_STEP_SIZE >= 0;
+		},
+		execute: (color) => {
+			return {
+				newValue: [color.r, color.g - COLOR_STEP_SIZE, color.b],
+				appliedMutatation: `decreased green by ${COLOR_STEP_SIZE}`,
+			};
+		},
+	},
+	{
+		name: 'increaseGreen',
+		isValid: (color) => {
+			return color.g + COLOR_STEP_SIZE <= 255;
+		},
+		execute: (color) => {
+			return {
+				newValue: [color.r, color.g + COLOR_STEP_SIZE, color.b],
+				appliedMutatation: `increased green by ${COLOR_STEP_SIZE}`,
+			};
+		},
+	},
+	{
+		name: 'decreaseBlue',
+		isValid: (color) => {
+			return color.b - COLOR_STEP_SIZE >= 0;
+		},
+		execute: (color) => {
+			return {
+				newValue: [color.r, color.g, color.b - COLOR_STEP_SIZE],
+				appliedMutatation: `decreased blue by ${COLOR_STEP_SIZE}`,
+			};
+		},
+	},
+	{
+		name: 'increaseBlue',
+		isValid: (color) => {
+			return color.b + COLOR_STEP_SIZE <= 255;
+		},
+		execute: (color) => {
+			return {
+				newValue: [color.r, color.g, color.b + COLOR_STEP_SIZE],
+				appliedMutatation: `increased blue by ${COLOR_STEP_SIZE}`,
 			};
 		},
 	},

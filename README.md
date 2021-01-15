@@ -6,7 +6,7 @@ TODO:
 
 - Implement stop/reset on button click
 
-- Per channel color mutation
+- DONE Per channel color mutation
 
 - Add mutation of adding a polynome
     * maybe add 3 different mutations with different starting polynomes

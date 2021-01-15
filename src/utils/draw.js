@@ -1,5 +1,5 @@
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from '../constants';
-import { getGrayscaleColorString } from './color';
+import { getColorString } from './color';
 
 export default function draw(canvas, polynomials) {
 	const context = canvas.getContext('2d');
@@ -11,7 +11,7 @@ export default function draw(canvas, polynomials) {
 }
 
 function drawPolynomial(context, polynomial) {
-	const color = getGrayscaleColorString(polynomial.color, polynomial.opacity);
+	const color = getColorString(polynomial.color, polynomial.opacity);
 
 	context.fillStyle = color;
 

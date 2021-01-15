@@ -2,7 +2,7 @@ const BASE_COEFFICIENTS = [10, 0.01, 0.0002, 0.000001];
 
 export function Polynomial(coefficients) {
 	this.coefficients = coefficients || BASE_COEFFICIENTS;
-	this.color = 200;
+	this.color = [200,200,200];
 	this.appliedMutations = [];
 }
 
