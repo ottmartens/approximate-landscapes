@@ -26,7 +26,7 @@ function Image({ src }) {
 
 function StartButton({ started, setStarted }) {
 	return (
-		<button onClick={() => setStarted(!started)}>
+		<button id={"startButton"} onClick={() => setStarted(!started)}>
 			{started ? 'stop' : 'start'}
 		</button>
 	);

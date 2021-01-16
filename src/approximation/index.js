@@ -20,8 +20,9 @@ export async function startApproximation(baseImage, canvas) {
 	let polynomials = [new Polynomial()];
 
 	let currentDistance = Infinity;
-
+	const button = document.getElementById("startButton")
 	while (NUM_ROUNDS < MAX_ROUNDS) {
+		if (button.textContent === "start") break;
 		const mutants = getAllMutants(polynomials);
 
 		mutants.push(polynomials); // Add the current mutation as well
