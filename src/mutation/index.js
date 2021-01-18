@@ -1,25 +1,18 @@
-import { cloneDeep } from 'lodash';
-
 import { generateColorMutants } from './color';
 import { generateCoefficientsMutants } from './coefficients';
 
-export function getAllMutants(polynomials, fixedPolynomials) {
+export function getAllMutants(currentPolynomial, fixedPolynomials) {
 	let mutants = [];
 
-	polynomials.forEach((polynomial, index) => {
-		const colorMutants = generateColorMutants(polynomial);
-		const coefficientsMutants = generateCoefficientsMutants(polynomial);
+	const colorMutants = generateColorMutants(currentPolynomial);
+	const coefficientsMutants = generateCoefficientsMutants(currentPolynomial);
 
-		[...colorMutants, ...coefficientsMutants].forEach((mutantPolynomial) => {
-			// Clone the polynomials and replace one with a mutant
-			//const mutant = cloneDeep(polynomials);
-
-			//mutant[index] = mutantPolynomial;
-			mutants.push((fixedPolynomials.concat(mutantPolynomial))); 
-		});
+	[...colorMutants, ...coefficientsMutants].forEach((mutantPolynomial) => {
+		// Add the mutated polynomial to existing polynomials
+		mutants.push(fixedPolynomials.concat(mutantPolynomial));
 	});
 
-	// add a polynomial ? remove one? smth else?
+	// mutants.push(fixedPolynomials.concat(currentPolynomial)); // Add the current state as well
 
 	return mutants;
 }

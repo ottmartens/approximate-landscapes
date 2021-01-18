@@ -89,7 +89,7 @@ const coefficientMutations = [
 			};
 		},
 	},
-/* 	{
+	/* 	{
 		name: 'flip coefficient',
 		isValid: (coefficient, degree) => {
 			return true;

@@ -4,58 +4,60 @@ import { getAllMutants } from '../mutation';
 import { evaluateMutants } from './evaluation';
 import { cloneDeep } from 'lodash';
 
-/*
-polynomial = {
-    coefficients: [Number],
-    color: 0-255, (for now)
-    appliedMutations: [String]
-}
-*/
+const ROUNDS_WITHOUT_PROGRESS_THRESHOLD = 20;
 
 const MAX_ROUNDS = 1000;
 
-let NUM_ROUNDS;
-
 export async function startApproximation(baseImage, canvas, isStopped) {
-	NUM_ROUNDS = 0;
-	let polynomials = [new Polynomial()];
+	let numRounds = 0;
 	let fixedPolynomials = [];
 
-	let currentDistance = Infinity;
+	let currentPolynomial = new Polynomial();
 
-	while (NUM_ROUNDS < MAX_ROUNDS) {
+	let bestRatioAchieved = Infinity;
+	let roundsWithoutProgress = 0;
+
+	while (numRounds < MAX_ROUNDS) {
 		if (isStopped.current) break;
-		const mutants = getAllMutants(polynomials, fixedPolynomials);
 
-		mutants.push(polynomials); // Add the current mutation as well
+		const mutants = getAllMutants(currentPolynomial, fixedPolynomials);
 
 		const { bestMutant, approximationRatio } = evaluateMutants(
 			mutants,
 			baseImage
 		);
 
-		if (NUM_ROUNDS % 50 === 0) {
-			// if (approximationRatio >= currentDistance) {
-			if (fixedPolynomials.length >= 10) {
-				console.log('Current state is most optimal, stopping');
-				break;
+		currentPolynomial = bestMutant[bestMutant.length - 1];
+
+		if (approximationRatio < bestRatioAchieved) {
+			bestRatioAchieved = approximationRatio;
+			roundsWithoutProgress = 0;
+		} else {
+			roundsWithoutProgress++;
+
+			if (roundsWithoutProgress === ROUNDS_WITHOUT_PROGRESS_THRESHOLD) {
+				console.log('The final polynome:', currentPolynomial);
+
+				if (fixedPolynomials.length >= 10) {
+					break;
+				}
+
+				// Persist current polynomial, start mutating new one
+				fixedPolynomials = cloneDeep(bestMutant);
+				console.log('Current polynomial count: ', fixedPolynomials.length);
+
+				console.log('Adding a new polynomial');
+				currentPolynomial = new Polynomial();
+
+				// Reset count
+				roundsWithoutProgress = 0;
+				bestRatioAchieved = Infinity;
 			}
-
-			fixedPolynomials = cloneDeep(bestMutant);
-			console.log('Adding a new polynomial');
-			console.log('Current amount is ' + fixedPolynomials.length);
-			console.log('The final polynome:');
-			console.log(bestMutant[bestMutant.length - 1]);
-			bestMutant.push(new Polynomial());
 		}
-
-		currentDistance = approximationRatio;
 
 		draw(canvas, bestMutant);
 
-		polynomials = [bestMutant[bestMutant.length - 1]];
-
-		NUM_ROUNDS++;
+		numRounds++;
 
 		await new Promise((resolve) => setTimeout(resolve, 50));
 	}

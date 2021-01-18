@@ -11,8 +11,8 @@ import { IMAGE_WIDTH, IMAGE_HEIGHT } from './constants';
 const DEFAULT_BASE_IMAGE_URL =
 	//'https://djburrill.github.io/assets/images/normal_pt_2.png'
 	//'https://thumbs.dreamstime.com/b/trees-horizont-black-white-photo-39533594.jpg';
-	// 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Neckertal_20150527-6384.jpg/2560px-Neckertal_20150527-6384.jpg';
-	'https://i.imgur.com/K82aewd.png';
+	'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Neckertal_20150527-6384.jpg/2560px-Neckertal_20150527-6384.jpg';
+	// 'https://i.imgur.com/K82aewd.png';
 	// 'https://ichef.bbci.co.uk/news/976/cpsprodpb/40F0/production/_104642661_3112ae2e-7f5b-4c8d-9fd0-a4bebcb372af.jpg';
 
 function FileInput() {
