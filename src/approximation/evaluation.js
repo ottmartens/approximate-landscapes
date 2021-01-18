@@ -49,7 +49,7 @@ export function evaluateMutants(mutants, baseImage) {
 }
 
 function evaluateOverlaidPolynomialsAtPoint(polynomials, { x, y }) {
-	for (const polynomial of polynomials) {
+	for (const polynomial of polynomials.reverse()) {
 		const value = polynomial.evaluateAtX(x);
 		if (value >= y) {
 			// We have found the foremost polynomiual that colors this point
