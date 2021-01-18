@@ -2,7 +2,7 @@ import { sampleNRandomPoints } from '../utils/sampling';
 import { IMAGE_WIDTH, IMAGE_HEIGHT } from '../constants';
 import { distanceBetweenRGB } from '../utils/color';
 
-const PERCENT_OF_POINTS_TO_SAMPLE = 0.1;
+const PERCENT_OF_POINTS_TO_SAMPLE = 4;
 
 const NUMBER_OF_POINTS_TO_SAMPLE = Math.round(
 	IMAGE_WIDTH * IMAGE_HEIGHT * (PERCENT_OF_POINTS_TO_SAMPLE / 100)
@@ -34,7 +34,7 @@ export function evaluateMutants(mutants, baseImage) {
 
 			const realColor = colorsInBaseImage[index];
 
-			totalDistance += distanceBetweenRGB(realColor, colorInMutation);
+			totalDistance += y ** 10 * distanceBetweenRGB(realColor, colorInMutation);
 		});
 
 		totalDistance /= sampledPoints.length;
@@ -56,7 +56,6 @@ function evaluateOverlaidPolynomialsAtPoint(polynomials, { x, y }) {
 
 		if (value >= y) {
 			// We color the area under the polynomial curve
-			// Which polynomials' color should we be returning?
 			currentColor = polynomial.color;
 		}
 	});
