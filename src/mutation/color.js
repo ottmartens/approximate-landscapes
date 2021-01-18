@@ -144,4 +144,52 @@ const colorMutations = [
 			};
 		},
 	},
+	{
+		name: 'invert color',
+		isValid: () => {
+			return true;
+		},
+		execute: (color) => {
+			return {
+				newValue: [255 - color.r, 255 - color.g, 255 - color.b],
+				appliedMutatation: `inverted all color channels`,
+			};
+		},
+	},
+	{
+		name: 'invert red channel',
+		isValid: () => {
+			return true;
+		},
+		execute: (color) => {
+			return {
+				newValue: [255 - color.r, color.g, color.b],
+				appliedMutatation: `inverted red channel`,
+			};
+		},
+	},
+	{
+		name: 'invert green channel',
+		isValid: () => {
+			return true;
+		},
+		execute: (color) => {
+			return {
+				newValue: [color.r, 255 - color.g, color.b],
+				appliedMutatation: `inverted green channel`,
+			};
+		},
+	},
+	{
+		name: 'invert blue channel',
+		isValid: () => {
+			return true;
+		},
+		execute: (color) => {
+			return {
+				newValue: [color.r, color.g, 255 - color.b],
+				appliedMutatation: `inverted blue channel`,
+			};
+		},
+	},
 ];
