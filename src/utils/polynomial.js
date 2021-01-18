@@ -1,4 +1,4 @@
-const BASE_COEFFICIENTS = [10, 0.01, 0.0002, 0.000001];
+const BASE_COEFFICIENTS = [100, 0.01, 0.0002, 0.000001];
 
 export function Polynomial(coefficients) {
 	this.coefficients = coefficients || BASE_COEFFICIENTS;

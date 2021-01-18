@@ -6,10 +6,9 @@ import { cloneDeep } from 'lodash';
 
 const ROUNDS_WITHOUT_PROGRESS_THRESHOLD = 20;
 
-const MAX_ROUNDS = 1000;
+const MAX_POLYNOMES = 20;
 
 export async function startApproximation(baseImage, canvas, isStopped) {
-	let numRounds = 0;
 	let fixedPolynomials = [];
 
 	let currentPolynomial = new Polynomial();
@@ -17,9 +16,7 @@ export async function startApproximation(baseImage, canvas, isStopped) {
 	let bestRatioAchieved = Infinity;
 	let roundsWithoutProgress = 0;
 
-	while (numRounds < MAX_ROUNDS) {
-		if (isStopped.current) break;
-
+	while (!isStopped.current) {
 		const mutants = getAllMutants(currentPolynomial, fixedPolynomials);
 
 		const { bestMutant, approximationRatio } = evaluateMutants(
@@ -38,7 +35,7 @@ export async function startApproximation(baseImage, canvas, isStopped) {
 			if (roundsWithoutProgress === ROUNDS_WITHOUT_PROGRESS_THRESHOLD) {
 				console.log('The final polynome:', currentPolynomial);
 
-				if (fixedPolynomials.length >= 10) {
+				if (fixedPolynomials.length >= MAX_POLYNOMES) {
 					break;
 				}
 
@@ -57,8 +54,6 @@ export async function startApproximation(baseImage, canvas, isStopped) {
 
 		draw(canvas, bestMutant);
 
-		numRounds++;
-
-		await new Promise((resolve) => setTimeout(resolve, 50));
+		await new Promise((resolve) => setTimeout(resolve, 20));
 	}
 }

@@ -4,7 +4,7 @@ const COEFFICIENT_MUTATION_STEPS_BY_DEGREE = {
 	// How much to increase/decrease a coefficient of a specified degree in one step
 	0: 10,
 	1: 0.05,
-	2: 0.0001,
+	2: 0.00005,
 	3: 0.0000005,
 };
 
