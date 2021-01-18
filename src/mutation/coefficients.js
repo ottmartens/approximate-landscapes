@@ -3,13 +3,13 @@ import { cloneDeep } from 'lodash';
 const COEFFICIENT_MUTATION_STEPS_BY_DEGREE = {
 	// How much to increase/decrease a coefficient of a specified degree in one step
 	0: 10,
-	1: 0.1,
-	2: 0.0002,
-	3: 0.000001,
+	1: 0.05,
+	2: 0.0001,
+	3: 0.0000005,
 };
 
 const COEFFICIENT_LOWER_BOUNDS_BY_DEGREE = {
-	0: 0,
+	0: 10,
 	1: -10,
 	2: -1,
 	3: -0.005,
