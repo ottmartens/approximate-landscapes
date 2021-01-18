@@ -13,6 +13,7 @@ export default function draw(canvas, polynomials) {
 function drawPolynomial(context, polynomial) {
 	const color = getColorString(polynomial.color, polynomial.opacity);
 
+	context.beginPath();
 	context.fillStyle = color;
 
 	context.moveTo(-1000, 0);

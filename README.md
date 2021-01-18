@@ -4,7 +4,7 @@ TODO:
 
 - DONE Implement sampling 
 
-- Implement stop/reset on button click
+- DONE Implement stop/reset on button click
 
 - DONE Per channel color mutation
 

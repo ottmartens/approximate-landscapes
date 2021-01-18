@@ -3,7 +3,7 @@ import { cloneDeep } from 'lodash';
 import { generateColorMutants } from './color';
 import { generateCoefficientsMutants } from './coefficients';
 
-export function getAllMutants(polynomials) {
+export function getAllMutants(polynomials, fixedPolynomials) {
 	let mutants = [];
 
 	polynomials.forEach((polynomial, index) => {
@@ -12,11 +12,10 @@ export function getAllMutants(polynomials) {
 
 		[...colorMutants, ...coefficientsMutants].forEach((mutantPolynomial) => {
 			// Clone the polynomials and replace one with a mutant
-			const mutant = cloneDeep(polynomials);
+			//const mutant = cloneDeep(polynomials);
 
-			mutant[index] = mutantPolynomial;
-
-			mutants.push(mutant); 
+			//mutant[index] = mutantPolynomial;
+			mutants.push((fixedPolynomials.concat(mutantPolynomial))); 
 		});
 	});
 

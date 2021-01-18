@@ -89,6 +89,20 @@ const coefficientMutations = [
 			};
 		},
 	},
+/* 	{
+		name: 'flip coefficient',
+		isValid: (coefficient, degree) => {
+			return true;
+		},
+		execute: (coefficient, degree) => {
+			const newValue = -coefficient;
+
+			return {
+				newValue,
+				appliedMutation: `flipped coefficient of x ** ${degree} to ${newValue}`,
+			};
+		},
+	}, */
 
 	// flip sign of coefficient?
 ];
