@@ -6,12 +6,10 @@ export function generateColorMutants(polynomial) {
 	let mutantPolynomials = [];
 
 	colorMutations.forEach((mutation) => {
-		const [r,g,b] = polynomial.color;
-		const color = {r, g, b}
+		const [r, g, b] = polynomial.color;
+		const color = { r, g, b };
 		if (mutation.isValid(color)) {
-			const { newValue, appliedMutatation } = mutation.execute(
-				color	
-			);
+			const { newValue, appliedMutatation } = mutation.execute(color);
 
 			const mutant = cloneDeep(polynomial);
 
@@ -107,6 +105,42 @@ const colorMutations = [
 			return {
 				newValue: [color.r, color.g, color.b + COLOR_STEP_SIZE],
 				appliedMutatation: `increased blue by ${COLOR_STEP_SIZE}`,
+			};
+		},
+	},
+	{
+		name: 'darken',
+		isValid: (color) => {
+			const { r, g, b } = color;
+
+			return [r, g, b].every((channel) => channel - COLOR_STEP_SIZE >= 0);
+		},
+		execute: (color) => {
+			return {
+				newValue: [
+					color.r - COLOR_STEP_SIZE,
+					color.g - COLOR_STEP_SIZE,
+					color.b - COLOR_STEP_SIZE,
+				],
+				appliedMutatation: `decreased all color channels by ${COLOR_STEP_SIZE}`,
+			};
+		},
+	},
+	{
+		name: 'lighten',
+		isValid: (color) => {
+			const { r, g, b } = color;
+
+			return [r, g, b].every((channel) => channel + COLOR_STEP_SIZE <= 255);
+		},
+		execute: (color) => {
+			return {
+				newValue: [
+					color.r + COLOR_STEP_SIZE,
+					color.g + COLOR_STEP_SIZE,
+					color.b + COLOR_STEP_SIZE,
+				],
+				appliedMutatation: `increased all color channels by ${COLOR_STEP_SIZE}`,
 			};
 		},
 	},
