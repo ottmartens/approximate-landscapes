@@ -1,28 +1,27 @@
 import { sampleNRandomPoints } from '../utils/sampling';
 import { IMAGE_WIDTH, IMAGE_HEIGHT } from '../constants';
-import {
-	distanceBetweenRGB,
-	grayScaleToRGB,
-} from '../utils/color';
+import { distanceBetweenRGB } from '../utils/color';
 
 const PERCENT_OF_POINTS_TO_SAMPLE = 0.1;
 
 const NUMBER_OF_POINTS_TO_SAMPLE = Math.round(
-	(IMAGE_WIDTH * IMAGE_HEIGHT) * (PERCENT_OF_POINTS_TO_SAMPLE/100)
+	IMAGE_WIDTH * IMAGE_HEIGHT * (PERCENT_OF_POINTS_TO_SAMPLE / 100)
 );
 
 export function evaluateMutants(mutants, baseImage) {
-	const sampledPoints = sampleNRandomPoints(NUMBER_OF_POINTS_TO_SAMPLE, {
+	let sampledPoints = sampleNRandomPoints(NUMBER_OF_POINTS_TO_SAMPLE, {
 		xMax: IMAGE_WIDTH,
 		yMax: IMAGE_HEIGHT,
 	});
 
 	const colorsInBaseImage = sampledPoints.map(([x, y]) =>
-		baseImage.getPixel(x, y)
+		baseImage.getPixel(x, IMAGE_HEIGHT - y)
 	);
 
 	let bestMutant;
 	let smallestDistance = Infinity;
+
+	sampledPoints = sampledPoints.map(([x, y]) => [x - 200, y]);
 
 	mutants.forEach((mutant) => {
 		let totalDistance = 0;
@@ -57,7 +56,7 @@ function evaluateOverlaidPolynomialsAtPoint(polynomials, { x, y }) {
 
 		if (value >= y) {
 			// We color the area under the polynomial curve
-			//Which polynomials' color should we be returning? 
+			// Which polynomials' color should we be returning?
 			currentColor = polynomial.color;
 		}
 	});
