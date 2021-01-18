@@ -18,7 +18,7 @@ const BASE_IMAGE_URLS = [
 
 // const DEFAULT_BASE_IMAGE_URL = 	'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Neckertal_20150527-6384.jpg/2560px-Neckertal_20150527-6384.jpg';
 const DEFAULT_BASE_IMAGE_URL =
-	'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9Crou0NiXQcaalv8u98nNq39get9B1a6ubg&usqp=CAU';
+	'https://i.imgur.com/K82aewd.png';
 
 function FileInput() {
 	return (
