@@ -7,12 +7,14 @@ export function getAllMutants(currentPolynomial, fixedPolynomials) {
 
 	const colorMutants = generateColorMutants(currentPolynomial);
 	const coefficientsMutants = generateCoefficientsMutants(currentPolynomial);
-	const limitsMutants = generateLimitsMutants(currentPolynomial);
+	// const limitsMutants = generateLimitsMutants(currentPolynomial);
 
-	[...colorMutants, ...coefficientsMutants/* , ...limitsMutants */].forEach((mutantPolynomial) => {
-		// Add the mutated polynomial to existing polynomials
-		mutants.push(fixedPolynomials.concat(mutantPolynomial));
-	});
+	[...colorMutants, ...coefficientsMutants /* , ...limitsMutants */].forEach(
+		(mutantPolynomial) => {
+			// Add the mutated polynomial to existing polynomials
+			mutants.push(fixedPolynomials.concat(mutantPolynomial));
+		}
+	);
 
 	// mutants.push(fixedPolynomials.concat(currentPolynomial)); // Add the current state as well
 

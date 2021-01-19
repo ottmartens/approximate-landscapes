@@ -4,9 +4,9 @@ import { getAllMutants } from '../mutation';
 import { evaluateMutants } from './evaluation';
 import { cloneDeep } from 'lodash';
 
-const ROUNDS_WITHOUT_PROGRESS_THRESHOLD = 20;
+const ROUNDS_WITHOUT_PROGRESS_THRESHOLD = 15;
 
-const MAX_POLYNOMES = 20;
+const MAX_POLYNOMES = 12;
 
 export async function startApproximation(baseImage, canvas, isStopped) {
 	let fixedPolynomials = [];
