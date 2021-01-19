@@ -6,12 +6,13 @@ import { cloneDeep } from 'lodash';
 
 const ROUNDS_WITHOUT_PROGRESS_THRESHOLD = 20;
 
-const MAX_POLYNOMES = 20;
+const MAX_POLYNOMES = 100;
 
 export async function startApproximation(baseImage, canvas, isStopped) {
 	let fixedPolynomials = [];
 
 	let currentPolynomial = new Polynomial();
+	let currentPolynomialIndex = 0;
 
 	let bestRatioAchieved = Infinity;
 	let roundsWithoutProgress = 0;
@@ -24,7 +25,7 @@ export async function startApproximation(baseImage, canvas, isStopped) {
 			baseImage
 		);
 
-		currentPolynomial = bestMutant[bestMutant.length - 1];
+		currentPolynomial = bestMutant[currentPolynomialIndex];
 
 		if (approximationRatio < bestRatioAchieved) {
 			bestRatioAchieved = approximationRatio;
@@ -45,6 +46,8 @@ export async function startApproximation(baseImage, canvas, isStopped) {
 
 				console.log('Adding a new polynomial');
 				currentPolynomial = new Polynomial();
+
+				currentPolynomialIndex = Math.floor(Math.random()*fixedPolynomials.length)
 
 				// Reset count
 				roundsWithoutProgress = 0;

@@ -34,7 +34,7 @@ export function evaluateMutants(mutants, baseImage) {
 
 			const realColor = colorsInBaseImage[index];
 
-			totalDistance += y ** 10 * distanceBetweenRGB(realColor, colorInMutation);
+			totalDistance += /* y ** 10 * */ distanceBetweenRGB(realColor, colorInMutation);
 		});
 
 		totalDistance /= sampledPoints.length;

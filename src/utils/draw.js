@@ -4,7 +4,7 @@ import { getColorString } from './color';
 export default function draw(canvas, polynomials) {
 	const context = canvas.getContext('2d');
 	clearCanvas(canvas);
-
+	polynomials.sort(((a, b) => (a.evaluateAtX(-200) + a.evaluateAtX(0) + a.evaluateAtX(200) > b.evaluateAtX(-200) + b.evaluateAtX(0) + b.evaluateAtX(200)) ? -1 : 1));
 	polynomials.forEach((polynomial) => {
 		drawPolynomial(context, polynomial);
 	});
