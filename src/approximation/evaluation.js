@@ -2,7 +2,7 @@ import { sampleNRandomPoints } from '../utils/sampling';
 import { IMAGE_WIDTH, IMAGE_HEIGHT } from '../constants';
 import { distanceBetweenRGB } from '../utils/color';
 
-const PERCENT_OF_POINTS_TO_SAMPLE = 3;
+const PERCENT_OF_POINTS_TO_SAMPLE = 4;
 
 const NUMBER_OF_POINTS_TO_SAMPLE = Math.round(
 	IMAGE_WIDTH * IMAGE_HEIGHT * (PERCENT_OF_POINTS_TO_SAMPLE / 100)
