@@ -4,17 +4,23 @@ import { getAllMutants } from '../mutation';
 import { evaluateMutants } from './evaluation';
 import { cloneDeep } from 'lodash';
 
-const ROUNDS_WITHOUT_PROGRESS_THRESHOLD = 15;
+const ROUNDS_WITHOUT_PROGRESS_THRESHOLD = 20;
 
-const MAX_POLYNOMES = 12;
+const MAX_POLYNOMES = 15;
 
-export async function startApproximation(baseImage, canvas, isStopped) {
+export async function startApproximation(
+	baseImage,
+	canvas,
+	isStopped,
+	setCurrrentPolynomials
+) {
 	let fixedPolynomials = [];
 
 	let currentPolynomial = new Polynomial();
 
 	let bestRatioAchieved = Infinity;
 	let roundsWithoutProgress = 0;
+	let bestAchievedState = null;
 
 	while (!isStopped.current) {
 		const mutants = getAllMutants(currentPolynomial, fixedPolynomials);
@@ -29,6 +35,7 @@ export async function startApproximation(baseImage, canvas, isStopped) {
 		if (approximationRatio < bestRatioAchieved) {
 			bestRatioAchieved = approximationRatio;
 			roundsWithoutProgress = 0;
+			bestAchievedState = cloneDeep(bestMutant);
 		} else {
 			roundsWithoutProgress++;
 
@@ -40,7 +47,7 @@ export async function startApproximation(baseImage, canvas, isStopped) {
 				}
 
 				// Persist current polynomial, start mutating new one
-				fixedPolynomials = cloneDeep(bestMutant);
+				fixedPolynomials = cloneDeep(bestAchievedState);
 				console.log('Current polynomial count: ', fixedPolynomials.length);
 
 				console.log('Adding a new polynomial');
@@ -51,6 +58,8 @@ export async function startApproximation(baseImage, canvas, isStopped) {
 				bestRatioAchieved = Infinity;
 			}
 		}
+
+		setCurrrentPolynomials(cloneDeep(bestMutant));
 
 		draw(canvas, bestMutant);
 

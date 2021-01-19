@@ -9,30 +9,32 @@ import { startApproximation } from './approximation';
 import { IMAGE_WIDTH, IMAGE_HEIGHT } from './constants';
 
 const BASE_IMAGE_URLS = [
-	'https://djburrill.github.io/assets/images/normal_pt_2.png',
-	'https://thumbs.dreamstime.com/b/trees-horizont-black-white-photo-39533594.jpg',
-	'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Neckertal_20150527-6384.jpg/2560px-Neckertal_20150527-6384.jpg',
+	'https://media-cdn.tripadvisor.com/media/photo-s/14/3e/a6/7b/beach.jpg',
+	'https://i.imgur.com/8tDpnVL.png',
 	'https://i.imgur.com/K82aewd.png',
-    'https://ichef.bbci.co.uk/news/976/cpsprodpb/40F0/production/_104642661_3112ae2e-7f5b-4c8d-9fd0-a4bebcb372af.jpg',
-    'https://i.imgur.com/bCSHy7u.png',
-    'https://i.imgur.com/jZSOn8N.png'
+	'https://ichef.bbci.co.uk/news/976/cpsprodpb/40F0/production/_104642661_3112ae2e-7f5b-4c8d-9fd0-a4bebcb372af.jpg',
+	'https://i.imgur.com/0xJ3awl.png',
+	'https://i.imgur.com/jZSOn8N.png',
 ];
 
-// const DEFAULT_BASE_IMAGE_URL = 	'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Neckertal_20150527-6384.jpg/2560px-Neckertal_20150527-6384.jpg';
-const DEFAULT_BASE_IMAGE_URL =
-	'https://i.imgur.com/jZSOn8N.png';
-
-function FileInput() {
+function ImageSelection({ setBaseImageUrl }) {
 	return (
-		<>
-			<input type='file' onChange={() => console.log('handle me!')} />
-			<span>or use default image:</span>
-		</>
+		<div>
+			{BASE_IMAGE_URLS.map((url) => (
+				<img
+					onClick={() => setBaseImageUrl(url)}
+					className={'selectionImage'}
+					alt=''
+					src={url}
+					key={url}
+				/>
+			))}
+		</div>
 	);
 }
 
 function Image({ src }) {
-	return <img src={src} alt='' />;
+	return <img className={'baseimage'} src={src} alt='' />;
 }
 
 function StartButton({ started, setStarted }) {
@@ -47,10 +49,31 @@ function Canvas({ canvasRef }) {
 	return <canvas ref={canvasRef} width={IMAGE_WIDTH} height={IMAGE_HEIGHT} />;
 }
 
+function CurrentPolynomials({ currentPolynomials }) {
+	return (
+		<div className={'polynomialTexts'}>
+			{currentPolynomials.reverse().map((polynomial, index) => {
+				const [c0, c1, c2, c3] = polynomial.coefficients.map(
+					(c) => Math.round(c * 1000000) / 1000000
+				);
+				const string = `${c0} + ${c1}x ${c2 > 0 ? '+ ' + c2 + 'x²' : ''}  ${
+					c3 > 0 ? '+ ' + c2 + 'x³' : ''
+				}`;
+
+				return <div key={string + index}>{string}</div>;
+			})}
+		</div>
+	);
+}
+
 function App() {
 	const [started, setStarted] = useState(false);
 
 	const [baseImage, setBaseImage] = useState(null);
+
+	const [baseImageUrl, setBaseImageUrl] = useState(null);
+
+	const [currentPolynomials, setCurrrentPolynomials] = useState(null);
 	/* 
     image type = {
         src: object,                       The image file to pass into the <img> element
@@ -62,15 +85,18 @@ function App() {
 	const canvasRef = useRef(null);
 	const canvas = canvasRef.current;
 
-	const isStopped = useRef(null);
+	const isStopped = useRef(true);
 
 	useEffect(() => {
 		async function fetchBaseImage() {
-			setBaseImage(await fetchImageFromUrl(DEFAULT_BASE_IMAGE_URL)); // Load the default image
+			setBaseImage(await fetchImageFromUrl(baseImageUrl)); // Load the default image
 		}
-
-		fetchBaseImage();
-	}, []);
+		if (baseImageUrl) {
+			isStopped.current = true;
+			setStarted(false);
+			fetchBaseImage(baseImageUrl);
+		}
+	}, [baseImageUrl]);
 
 	useEffect(() => {
 		if (canvasRef.current) {
@@ -82,19 +108,21 @@ function App() {
 		isStopped.current = !started;
 
 		if (started && baseImage) {
-			startApproximation(baseImage, canvas, isStopped); // start the approximation if start button clicked (or new image selected)
+			startApproximation(baseImage, canvas, isStopped, setCurrrentPolynomials); // start the approximation if start button clicked (or new image selected)
 		}
 		// eslint-disable-next-line
 	}, [started, baseImage]);
 
 	return (
 		<>
-			<FileInput />
+			<span className={'helptext'}>Pick an image to approximate</span>
+			<ImageSelection setBaseImageUrl={setBaseImageUrl} />
 			<Image src={baseImage?.src} />
-
 			{baseImage && <StartButton started={started} setStarted={setStarted} />}
-
 			<Canvas canvasRef={canvasRef} />
+			{currentPolynomials && (
+				<CurrentPolynomials currentPolynomials={currentPolynomials} />
+			)}
 		</>
 	);
 }
